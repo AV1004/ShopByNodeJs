@@ -1,0 +1,48 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/cart.css">
+    
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <ul class="cart__item-list">
+                <% products.forEach(p => { %>
+                    <li class="cart__item">
+                        <h1><%= p.productId.title %></h1>
+                        <h2>Quantity: <%= p.quantity %></h2>
+                    </li>
+                <% }) %>
+            </ul>
+            <div class="centered">
+                <h2>Total:$<%= totalSum %></h2>
+            </div>
+            <!-- SO here we wil make our Order Button which leads to the user to stripe which handles our backend! -->
+            <div class="centered">
+                <button id="order-btn"  class="btn">ORDER</button>
+                <!-- This is a script that is needed to send req to your stripe account! -->
+                <script src="https://js.stripe.com/v3/"></script>
+                <!-- Now here we will write some cilent side JS to make payment request to stripe! -->
+                <script>
+                    // here we first imeplement out API key! (Not that this is publisheble key which can visible to your user! (i.e it is on cilent side!))
+                    var stripe = Stripe('pk_test_51P1kIhSHj6vAIkZ84zhI6MNSkXgc9KzULkj5SvA6Ax003hi7nk2dTA3eDByT5jRfyFKjoA5fHUbDQuuJZt3xy0DM00olLB1kch');
+                    var orderBtn = document.getElementById('order-btn');
+                    orderBtn.addEventListener('click' , function () {
+                        stripe.redirectToCheckout({
+                            // Here we have to pass the sessionId make from stripe package!
+                            sessionId : "<%= sessionId %>"
+                        });
+                    });
+                </script>
+            </div>
+        </main>
+        <%- include('../includes/end.ejs') %>
+
+
+
+
+
+
+
+
+        <!-- Adding Checkout Page to make payments! -->
