@@ -4,7 +4,7 @@ const path = require("path");
 const PDFDocument = require("pdfkit");
 // Here we are importing stipre to handle payments and it calls function which takes Secret key of your stripe account which you have not to reveal in any cost so make sure that you don't use it on your view!
 const stripe = require("stripe")(
-  "sk_test_51P1kIhSHj6vAIkZ8JwPpU1xOETCCMc4A04dUSoYWaZu8q5RAl3YpaHzXOw0j771xkO28PnNMT5WBTAcozxDH4ckt00FI4z4vz1" //Secret key
+  process.env.STRIPE_KEY //Secret key
 );
 
 const Product = require("../models/product");

@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -8,12 +9,17 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
 
 const errorController = require("./controllers/error");
 const User = require("./models/user");
 
-const MONGODB_URI =
-  "mongodb+srv://valay:helloAV1004@cluster0.rkg6u7x.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0";
+require("dotenv").config();
+const { default: helmet } = require("helmet");
+const compression = require("compression");
+const morgan = require("morgan");
+
+const MONGODB_URI = process.env.DB_URI;
 
 const app = express();
 const store = new MongoDBStore({
@@ -27,7 +33,7 @@ const fileStorage = multer.diskStorage({
     cb(null, "images");
   },
   filename: (req, file, cb) => {
-    cb(null, Math.random().toFixed(2).toString() + "-" + file.originalname);
+    cb(null, uuidv4() + "-" + file.originalname);
   },
 });
 
@@ -49,6 +55,18 @@ app.set("views", "views");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
+
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
+
+// For secure headers
+app.use(helmet());
+// For compressed data (i.e reduces size of files that is served to browser)
+app.use(compression());
+//For Loggig data
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
@@ -112,7 +130,8 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
-    app.listen(3000);
+    console.log("App Started!");
+    app.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
     console.log(err);
