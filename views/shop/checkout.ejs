@@ -1,5 +1,7 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/cart.css">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://js.stripe.com https://js.stripe.com/v3/;">
+
     
     </head>
 
@@ -19,11 +21,13 @@
             </div>
             <!-- SO here we wil make our Order Button which leads to the user to stripe which handles our backend! -->
             <div class="centered">
-                <button id="order-btn"  class="btn">ORDER</button>
+                <a href="<%= sessionUrl %>">
+                    <button id="order-btn"  class="btn">ORDER</button>
+                </a>
                 <!-- This is a script that is needed to send req to your stripe account! -->
-                <script src="https://js.stripe.com/v3/"></script>
+                <!-- <script src="https://js.stripe.com/v3/"></script> -->
                 <!-- Now here we will write some cilent side JS to make payment request to stripe! -->
-                <script>
+                <!-- <script>
                     // here we first imeplement out API key! (Not that this is publisheble key which can visible to your user! (i.e it is on cilent side!))
                     var stripe = Stripe('pk_test_51P1kIhSHj6vAIkZ84zhI6MNSkXgc9KzULkj5SvA6Ax003hi7nk2dTA3eDByT5jRfyFKjoA5fHUbDQuuJZt3xy0DM00olLB1kch');
                     var orderBtn = document.getElementById('order-btn');
@@ -33,7 +37,7 @@
                             sessionId : "<%= sessionId %>"
                         });
                     });
-                </script>
+                </script> -->
             </div>
         </main>
         <%- include('../includes/end.ejs') %>

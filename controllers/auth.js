@@ -222,7 +222,7 @@ exports.postReset = (req, res, next) => {
           to: req.body.email, // list of receivers
           subject: "Request to change password of ShopByNodeJs ✔", // Subject line
           html: `<h1>You requested to reset your password</h1>
-          <p>Click this <a href="http://localhost:3000/reset/${token}">Reset Password</a> to set a new password.</p>
+          <p>Click this <a href="https://uraban-utopia.onrender.com/reset/${token}">Reset Password</a> to set a new password.</p>
           `,
         });
       })

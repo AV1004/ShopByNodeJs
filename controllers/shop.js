@@ -202,6 +202,7 @@ exports.getCheckout = (req, res, next) => {
         totalSum: total,
         // Here we are passing session id checkout page!
         sessionId: session.id,
+        sessionUrl: session.url,
       });
     })
     .catch((err) => {
