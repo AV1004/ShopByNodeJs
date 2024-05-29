@@ -1,5 +1,9 @@
 const path = require("path");
 const fs = require("fs");
+// Now to add SSL certificate locally install openSSL locally on windows(mac provides it by default)
+// then run command openssl req -nodes -new -x509 -keyout server.key -out server.cert
+// Then add this https module
+// const https = require("https");
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -27,6 +31,10 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 const csrfProtection = csrf();
+
+// Then read that both files that you have generated
+// const privateKey = fs.readFileSync("server.key");
+// const certificate = fs.readFileSync("server.cert");
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -131,6 +139,9 @@ mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
     console.log("App Started!");
+    // https
+    //   .createServer({ key: privateKey, cert: certificate }, app)
+    //   .listen(process.env.PORT || 3000);
     app.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
