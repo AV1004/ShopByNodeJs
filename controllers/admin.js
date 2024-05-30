@@ -153,22 +153,22 @@ exports.postEditProduct = (req, res, next) => {
     });
   }
 
-  if (!image) {
-    return res.status(422).render("admin/edit-product", {
-      pageTitle: "Edit Product",
-      path: "/admin/edit-product",
-      editing: true,
-      hasError: true,
-      product: {
-        title: updatedTitle,
-        price: updatedPrice,
-        description: updatedDesc,
-        _id: prodId,
-      },
-      errorMessage: "Attached file is not an image.",
-      validationErrors: [],
-    });
-  }
+  // if (!image) {
+  //   return res.status(422).render("admin/edit-product", {
+  //     pageTitle: "Edit Product",
+  //     path: "/admin/edit-product",
+  //     editing: true,
+  //     hasError: true,
+  //     product: {
+  //       title: updatedTitle,
+  //       price: updatedPrice,
+  //       description: updatedDesc,
+  //       _id: prodId,
+  //     },
+  //     errorMessage: "Attached file is not an image.",
+  //     validationErrors: [],
+  //   });
+  // }
 
   Product.findById(prodId)
     .then((product) => {
@@ -213,8 +213,29 @@ exports.getProducts = (req, res, next) => {
     });
 };
 
-exports.deleteProduct = (req, res, next) => {
-  const prodId = req.params.productId;
+// exports.deleteProduct = (req, res, next) => {
+//   const prodId = req.params.productId;
+//   Product.findById(prodId)
+//     .then((product) => {
+//       if (!product) {
+//         return next(new Error("Product not found."));
+//       }
+//       fileHelper.deleteFile(product.imageUrl);
+//       return Product.deleteOne({ _id: prodId, userId: req.user._id });
+//     })
+//     .then(() => {
+//       console.log("DESTROYED PRODUCT");
+//       res.status(200).json({ message: "Success!" });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ message: "Deleting product failed." });
+//     });
+// };
+
+exports.postDeleteProduct = (req, res, next) => {
+  // const prodId = req.params.productId;
+  const prodId = req.body.productId;
+
   Product.findById(prodId)
     .then((product) => {
       if (!product) {
@@ -225,9 +246,11 @@ exports.deleteProduct = (req, res, next) => {
     })
     .then(() => {
       console.log("DESTROYED PRODUCT");
-      res.status(200).json({ message: "Success!" });
+      res.redirect("/admin/products");
     })
     .catch((err) => {
-      res.status(500).json({ message: "Deleting product failed." });
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
