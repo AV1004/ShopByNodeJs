@@ -92,12 +92,12 @@ exports.postLogin = (req, res, next) => {
               console.log(err);
               res.redirect("/");
               transporter.sendMail({
-                from: '"ShopFromNodeJs" learning@brevo.com', // sender address
+                from: '"Urban Utopia🛍️" urbanutopia@gmail.com', // sender address
                 to: email, // list of receivers
                 subject: "Login Successfully ✔", // Subject line
                 text: `Hello  ${
                   email.split("@")[0]
-                }, You have Loggedin successfully in ShopByNodeJs`, // plain text body
+                }, You have Loggedin successfully in Urban Utopia🛍️`, // plain text body
               });
             });
           }
@@ -155,9 +155,9 @@ exports.postSignup = (req, res, next) => {
     .then((result) => {
       res.redirect("/login");
       return transporter.sendMail({
-        from: '"ShopFromNodeJs" learning@brevo.com', // sender address
+        from: '"Urban Utopia🛍️" urbanutopia@gmail.com', // sender address
         to: email, // list of receivers
-        subject: "Register to ShopByNodeJs ✔", // Subject line
+        subject: "Register to Urban Utopia🛍️", // Subject line
         text: `Hello  ${
           email.split("@")[0]
         }, Your Registration in ShopByNodeJs is completed successfully`, // plain text body
@@ -218,9 +218,9 @@ exports.postReset = (req, res, next) => {
           reset: true,
         });
         transporter.sendMail({
-          from: '"ShopFromNodeJs" learning@brevo.com', // sender address
+          from: '"Urban Utopia🛍️" urbanutopia@gmail.com', // sender address
           to: req.body.email, // list of receivers
-          subject: "Request to change password of ShopByNodeJs ✔", // Subject line
+          subject: "Request to change password of Urban Utopia🛍️", // Subject line
           html: `<h1>You requested to reset your password</h1>
           <p>Click this <a href="https://uraban-utopia.onrender.com/reset/${token}">Reset Password</a> to set a new password.</p>
           `,

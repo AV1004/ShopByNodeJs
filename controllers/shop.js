@@ -76,7 +76,7 @@ exports.getIndex = (req, res, next) => {
     .then((products) => {
       res.render("shop/index", {
         prods: products,
-        pageTitle: "Shop",
+        pageTitle: "Urban Utopia",
         path: "/",
         currentPage: page,
         hasNextPage: ITEMS_PER_PAGE * page < totalItems,
@@ -310,7 +310,7 @@ exports.getInvoice = (req, res, next) => {
       pdfDoc.pipe(fs.createWriteStream(invoicePath));
       pdfDoc.pipe(res);
 
-      pdfDoc.fontSize(26).text("Invoice", {
+      pdfDoc.fontSize(26).text("Invoice of Urban Utopia", {
         underline: true,
       });
       pdfDoc.text("-----------------------");
